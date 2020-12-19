@@ -1,6 +1,9 @@
 var dog, happyDog
 var database
 var foodS, foodStock
+var fedTime,lastFed;
+var foodObj;
+var object;
 
 function preload()
 {
@@ -14,6 +17,17 @@ function setup() {
 
   foodStock = database.ref('Food');
   foodStock.on("value",readStock);
+
+  feed=createButton("Feed the dog");
+  feed.position(705,95);
+  feed.mousePressed(feedDog);
+
+  addFood=createButton("Add Food");
+  addFood.position(800.95);
+  addFood.mousePressed(addFoods);
+
+  
+
 }
 
 
@@ -46,5 +60,25 @@ function writeStock(x){
   database.ref('/').update({
     food:x
   })
+}
+
+function feedDog(){
+  dog.addImage("images/dog.Img1.png");
+
+  foodObj.updateFoodStock(foodObj.getFoodStock()-1);
+  database.ref('/').update({
+    Food:foodObj.getFoodStock(),
+    FeedTime:hour()
+
+  })
+
+}
+
+function addFoods(){
+foodS++
+database.ref('/').update({
+  Food:foodS
+})
+
 }
 
