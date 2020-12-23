@@ -13,7 +13,7 @@ function preload()
 function setup() {
 	createCanvas(500, 500);
   dog = createSprite(250,250,50,50);
-  dataBase = firebase.database();
+  database = firebase.database();
 
   foodStock = database.ref('Food');
   foodStock.on("value",readStock);
@@ -34,11 +34,12 @@ function setup() {
 function draw() {  
   backround(46,139,87);
 
-  if(keyWentDown(UP_ARROW)){
-    writeStock(foodS);
-    dog.addImage("images/dogImg1.png")
-  }
+  fedTime=database.ref('FeedTime');
+  fedTime.on("value",function(data){
+      lastFed=data.val();
+  });
 
+  
 
   drawSprites();
   //add styles here
